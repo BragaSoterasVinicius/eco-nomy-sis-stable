@@ -8,9 +8,11 @@ import java.util.List;
 public interface PagamentoService {
     Pagamento criarPagamento(Pagamento pagamento);
 
-    void deletarPagamento(int idPagamento);
+    Pagamento editarTransacao(int id, Pagamento pagamento);
 
-    List<Pagamento> listarPagamentos();
+    Pagamento buscarPorId(int id);
 
-    List<Pagamento> listarByPropostaId(int propostaId);
+    List<Pagamento> listarPagamentosPorEmpresaId(int empresaId);
+
+    List<Pagamento> listarPagamentosPorEmpregadoId(int id);
 }

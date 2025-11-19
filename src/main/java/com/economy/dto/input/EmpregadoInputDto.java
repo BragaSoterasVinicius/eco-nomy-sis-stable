@@ -10,6 +10,7 @@ public class EmpregadoInputDto {
     private String email;
     private BigDecimal saldo;
     private Date dataCriacao;
+    private String senha;
 
     public EmpregadoInputDto(int empregadoId, String cpf, String nome, String email, BigDecimal saldo, Date dataCriacao) {
         this.empregadoId = empregadoId;
@@ -66,5 +67,13 @@ public class EmpregadoInputDto {
 
     public void setDataCriacao(Date dataCriacao) {
         this.dataCriacao = dataCriacao;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 }

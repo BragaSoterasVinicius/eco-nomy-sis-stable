@@ -10,14 +10,16 @@ public class Empregado {
     private String email;
     private BigDecimal saldo;
     private Date dataCriacao;
+    private String senha;
 
-    public Empregado(int empregadoId, String cpf, String nome, String email, BigDecimal saldo, Date dataCriacao) {
+    public Empregado(int empregadoId, String cpf, String nome, String email, BigDecimal saldo, Date dataCriacao, String senha) {
         this.empregadoId = empregadoId;
         this.cpf = cpf;
         this.nome = nome;
         this.email = email;
         this.saldo = saldo;
         this.dataCriacao = dataCriacao;
+        this.senha = senha;
     }
 
     public int getEmpregadoId() {
@@ -66,5 +68,13 @@ public class Empregado {
 
     public void setDataCriacao(Date dataCriacao) {
         this.dataCriacao = dataCriacao;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 }

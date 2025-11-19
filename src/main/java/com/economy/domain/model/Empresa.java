@@ -9,13 +9,15 @@ public class Empresa {
     private String cnpj;
     private BigDecimal saldo;
     private Date dataCriacao;
+    private String senha;
 
-    public Empresa(int id, String nome, String cnpj, BigDecimal saldo, Date dataCriacao) {
+    public Empresa(int id, String nome, String cnpj, BigDecimal saldo, Date dataCriacao, String senha) {
         this.id = id;
         this.nome = nome;
         this.cnpj = cnpj;
         this.saldo = saldo;
         this.dataCriacao = dataCriacao;
+        this.senha = senha;
     }
 
     public int getId() {
@@ -56,5 +58,13 @@ public class Empresa {
 
     public void setDataCriacao(Date dataCriacao) {
         this.dataCriacao = dataCriacao;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 }

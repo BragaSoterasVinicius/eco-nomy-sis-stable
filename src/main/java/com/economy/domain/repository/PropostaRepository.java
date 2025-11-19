@@ -17,4 +17,6 @@ public interface PropostaRepository {
     List<Proposta> listarByEmpresaId(int empresaId);
 
     List<Proposta> listarByEmpregadoId(int empregadoId);
+
+    Proposta getProposta(int idProposta);
 }

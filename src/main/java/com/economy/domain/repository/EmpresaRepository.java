@@ -13,5 +13,7 @@ public interface EmpresaRepository {
 
     List<Empresa> listarEmpresas();
 
-    List<Empresa> listarByCnpj(String cnpj);
+    List<Empresa> listarById(int id);
+
+    Empresa login(String email, String senha);
 }

@@ -17,4 +17,6 @@ public interface PropostaService {
     List<Proposta> listarByEmpresaId(int empresaId);
 
     List<Proposta> listarByEmpregadoId(int empregadoId);
+
+    Proposta getPropostaById(int id);
 }

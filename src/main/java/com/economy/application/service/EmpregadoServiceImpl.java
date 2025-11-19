@@ -1,34 +1,46 @@
 package com.economy.application.service;
 
 import com.economy.domain.model.Empregado;
+import com.economy.domain.repository.EmpregadoRepository;
 import com.economy.domain.service.EmpregadoService;
 
 import java.util.List;
 
 public class EmpregadoServiceImpl implements EmpregadoService {
 
+    private final EmpregadoRepository empregadoRepository;
+
+    public EmpregadoServiceImpl(EmpregadoRepository empregadoRepository) {
+        this.empregadoRepository = empregadoRepository;
+    }
+
     @Override
     public Empregado criarEmpregado(Empregado empregado) {
-        return null;
+        return empregadoRepository.criarEmpregado(empregado);
     }
 
     @Override
-    public Empregado editarEmpregado(Empregado empregado, int idEmpregado) {
-        return null;
+    public Empregado editarEmpregado(int id, Empregado empregado) {
+        return empregadoRepository.editarEmpregado(empregado, id);
     }
 
     @Override
-    public void deletarEmpregado(int idEmpregado) {
+    public void deletarEmpregado(int id) {
+        empregadoRepository.deletarEmpregado(id);
+    }
 
+    @Override
+    public Empregado buscarPorId(int id) {
+        return empregadoRepository.listarByIdUsuario(id).get(0);
     }
 
     @Override
     public List<Empregado> listarEmpregados() {
-        return List.of();
+        return empregadoRepository.listarEmpregados();
     }
 
     @Override
-    public List<Empregado> listarByIdUsuario(int idUsuario) {
-        return List.of();
+    public Empregado loginEmpregado(String email, String senha) {
+        return empregadoRepository.loginEmpregado(email, senha);
     }
 }

@@ -14,4 +14,6 @@ public interface EmpregadoRepository {
     List<Empregado> listarEmpregados();
 
     List<Empregado> listarByIdUsuario(int idUsuario);
+
+    Empregado loginEmpregado(String email, String senha);
 }

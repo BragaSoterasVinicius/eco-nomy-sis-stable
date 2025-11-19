@@ -7,6 +7,7 @@ public class EmpresaInputDto {
     private String nome;
     private String cnpj;
     private BigDecimal saldo;
+    private String senha;
 
     public EmpresaInputDto( String nome, String cnpj, BigDecimal saldo, Date dataCriacao) {
         this.nome = nome;
@@ -38,4 +39,11 @@ public class EmpresaInputDto {
         this.saldo = saldo;
     }
 
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
 }

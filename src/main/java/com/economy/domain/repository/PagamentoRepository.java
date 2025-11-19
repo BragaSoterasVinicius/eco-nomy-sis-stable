@@ -10,9 +10,9 @@ public interface PagamentoRepository {
 
     Pagamento editarPagamento(Pagamento pagamento, int idPagamento);
 
-    void deletarPagamento(int idPagamento);
+    Pagamento getById(int pagamentoId);
 
-    List<Pagamento> listarPagamentos();
+    List<Pagamento> listarPagamentosPorEmpregadoId(int id);
 
-    List<Pagamento> listarByPropostaId(int propostaId);
+    List<Pagamento> listarPagamentosPorEmpresaId(int empresaId);
 }
