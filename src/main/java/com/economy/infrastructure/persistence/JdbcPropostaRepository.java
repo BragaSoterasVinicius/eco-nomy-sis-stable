@@ -3,6 +3,11 @@ package com.economy.infrastructure.persistence;
 import com.economy.domain.model.Proposta;
 import com.economy.domain.repository.PropostaRepository;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class JdbcPropostaRepository implements PropostaRepository {
@@ -14,36 +19,176 @@ public class JdbcPropostaRepository implements PropostaRepository {
 
     @Override
     public Proposta criarProposta(Proposta proposta) {
-        return null;
+        String sql = """
+            INSERT INTO proposta (empresa_id, empregado_id, descricao, valor)
+            VALUES (?, ?, ?, ?)
+        """;
+
+        try (Connection conn = databaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql, new String[]{"id"})) {
+
+            stmt.setInt(1, proposta.getEmpresaId());
+            stmt.setInt(2, proposta.getEmpregadoId());
+            stmt.setString(3, proposta.getDescricao());
+            stmt.setBigDecimal(4, proposta.getValor());
+
+            stmt.executeUpdate();
+
+            ResultSet rs = stmt.getGeneratedKeys();
+            if (rs.next()) {
+                proposta.setId(rs.getInt(1));
+            }
+
+            return proposta;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao criar proposta", e);
+        }
     }
 
     @Override
     public Proposta editarProposta(Proposta proposta, int idProposta) {
-        return null;
+        String sql = """
+            UPDATE proposta
+               SET empresa_id = ?, empregado_id = ?, descricao = ?, valor = ?
+             WHERE id = ?
+        """;
+
+        try (Connection conn = databaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, proposta.getEmpresaId());
+            stmt.setInt(2, proposta.getEmpregadoId());
+            stmt.setString(3, proposta.getDescricao());
+            stmt.setBigDecimal(4, proposta.getValor());
+            stmt.setInt(5, idProposta);
+
+            stmt.executeUpdate();
+            proposta.setId(idProposta);
+
+            return proposta;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao editar proposta", e);
+        }
     }
 
     @Override
     public void deletarProposta(int idProposta) {
+        String sql = "DELETE FROM proposta WHERE id = ?";
 
+        try (Connection conn = databaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idProposta);
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao deletar proposta", e);
+        }
     }
 
     @Override
     public List<Proposta> listarPropostas() {
-        return List.of();
+        String sql = "SELECT * FROM proposta ORDER BY data_criacao DESC";
+
+        try (Connection conn = databaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            List<Proposta> lista = new ArrayList<>();
+
+            while (rs.next()) {
+                lista.add(mapResultSetToProposta(rs));
+            }
+
+            return lista;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao listar propostas", e);
+        }
     }
 
     @Override
     public List<Proposta> listarByEmpresaId(int empresaId) {
-        return List.of();
+        String sql = "SELECT * FROM proposta WHERE empresa_id = ? ORDER BY data_criacao DESC";
+
+        try (Connection conn = databaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, empresaId);
+
+            ResultSet rs = stmt.executeQuery();
+            List<Proposta> lista = new ArrayList<>();
+
+            while (rs.next()) {
+                lista.add(mapResultSetToProposta(rs));
+            }
+
+            return lista;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao listar propostas por empresa", e);
+        }
     }
 
     @Override
     public List<Proposta> listarByEmpregadoId(int empregadoId) {
-        return List.of();
+        String sql = "SELECT * FROM proposta WHERE empregado_id = ? ORDER BY data_criacao DESC";
+
+        try (Connection conn = databaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, empregadoId);
+
+            ResultSet rs = stmt.executeQuery();
+            List<Proposta> lista = new ArrayList<>();
+
+            while (rs.next()) {
+                lista.add(mapResultSetToProposta(rs));
+            }
+
+            return lista;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao listar propostas por empregado", e);
+        }
     }
 
     @Override
     public Proposta getProposta(int idProposta) {
-        return null;
+        String sql = "SELECT * FROM proposta WHERE id = ?";
+
+        try (Connection conn = databaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idProposta);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return mapResultSetToProposta(rs);
+            }
+
+            return null;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar proposta", e);
+        }
+    }
+
+    // ---------------------
+    // 🔄 MAP RESULTSET TO MODEL
+    // ---------------------
+    private Proposta mapResultSetToProposta(ResultSet rs) throws SQLException {
+        Proposta p = new Proposta();
+
+        p.setId(rs.getInt("id"));
+        p.setEmpresaId(rs.getInt("empresa_id"));
+        p.setEmpregadoId(rs.getInt("empregado_id"));
+        p.setDescricao(rs.getString("descricao"));
+        p.setValor(rs.getBigDecimal("valor"));
+        p.setDataCriacao(rs.getTimestamp("data_criacao"));
+
+        return p;
     }
 }

@@ -11,7 +11,8 @@ public class PropostaMapper {
                 proposta.getEmpresaId(),
                 proposta.getDescricao(),
                 proposta.getValor(),
-                proposta.getDataCriacao()
+                proposta.getDataCriacao(),
+                proposta.getEmpregadoId()
         );
     }
 
@@ -21,7 +22,9 @@ public class PropostaMapper {
                 dto.getEmpresaId(),
                 dto.getDescricao(),
                 dto.getValor(),
-                dto.getDataCriacao()
+                dto.getDataCriacao(),
+                0
         );
+        //A proposta sempre é criada sem empregado associado
     }
 }

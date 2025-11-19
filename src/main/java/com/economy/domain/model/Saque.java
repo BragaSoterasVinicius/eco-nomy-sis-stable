@@ -10,6 +10,10 @@ public class Saque {
     private String metodo;
     private Date dataSaque;
 
+    public Saque() {
+
+    }
+
     public int getId() {
         return id;
     }

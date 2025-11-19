@@ -9,13 +9,19 @@ public class Proposta {
     private String descricao;
     private BigDecimal valor;
     private Date dataCriacao;
+    private int empregadoId;
 
-    public Proposta(int id, int empresaId, String descricao, BigDecimal valor, Date dataCriacao) {
+    public Proposta(int id, int empresaId, String descricao, BigDecimal valor, Date dataCriacao, int empregadoId) {
         this.id = id;
         this.empresaId = empresaId;
         this.descricao = descricao;
         this.valor = valor;
         this.dataCriacao = dataCriacao;
+        this.empregadoId = empregadoId;
+    }
+
+    public Proposta() {
+
     }
 
     public int getId() {
@@ -56,5 +62,13 @@ public class Proposta {
 
     public void setDataCriacao(Date dataCriacao) {
         this.dataCriacao = dataCriacao;
+    }
+
+    public int getEmpregadoId() {
+        return empregadoId;
+    }
+
+    public void setEmpregadoId(int empregadoId) {
+        this.empregadoId = empregadoId;
     }
 }

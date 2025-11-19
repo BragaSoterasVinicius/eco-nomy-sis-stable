@@ -18,6 +18,10 @@ public class Deposito {
         this.dateDeposito = dateDeposito;
     }
 
+    public Deposito() {
+
+    }
+
     public int getId() {
         return id;
     }

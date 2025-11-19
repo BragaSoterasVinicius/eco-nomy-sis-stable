@@ -22,6 +22,10 @@ public class Empregado {
         this.senha = senha;
     }
 
+    public Empregado() {
+
+    }
+
     public int getEmpregadoId() {
         return empregadoId;
     }

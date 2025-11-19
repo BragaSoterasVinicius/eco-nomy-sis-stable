@@ -20,6 +20,10 @@ public class Pagamento {
         this.dataPagamento = dataPagamento;
     }
 
+    public Pagamento() {
+
+    }
+
     public int getId() {
         return id;
     }

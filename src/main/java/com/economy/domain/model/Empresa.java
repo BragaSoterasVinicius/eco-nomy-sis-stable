@@ -20,6 +20,10 @@ public class Empresa {
         this.senha = senha;
     }
 
+    public Empresa() {
+
+    }
+
     public int getId() {
         return id;
     }
