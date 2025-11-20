@@ -26,7 +26,8 @@ public class PixServiceImpl implements PixService {
     private String mercadoPagoToken = ConfigProvider.getConfig().getValue("mercadopago.token", String.class);
 
     @Override
-    public PixQrCodeOutputDto createQrCode(PixDepositInputDto deposito) {
+    public PixQrCodeOutputDto
+    createQrCode(PixDepositInputDto deposito) {
         try{
 
             MercadoPagoConfig.setAccessToken(mercadoPagoToken);
@@ -50,7 +51,7 @@ public class PixServiceImpl implements PixService {
                                     .firstName(deposito.getNome())
                                     .identification(IdentificationRequest.builder()
                                             .type("CNPJ")
-                                            .number(deposito.getNome())
+                                            .number(deposito.getCnpj())
                                             .build())
                                     .build())
                     .build();

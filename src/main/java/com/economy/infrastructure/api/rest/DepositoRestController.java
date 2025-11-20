@@ -41,7 +41,7 @@ public class DepositoRestController {
         }
     }
 
-    //O webhook idealmente batera aqui
+    //O webhook idealmente bateria aqui
     @POST
     public Response depositar(DepositoInputDto dto) {
         try {
