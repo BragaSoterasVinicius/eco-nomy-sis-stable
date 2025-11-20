@@ -20,18 +20,14 @@ public class JdbcPropostaRepository implements PropostaRepository {
     @Override
     public Proposta criarProposta(Proposta proposta) {
         String sql = """
-            INSERT INTO proposta (empresa_id, empregado_id, descricao, valor, is_longo_prazo)
-            VALUES (?, ?, ?, ?)
+            INSERT INTO proposta (empresa_id, empregado_id, descricao, valor, is_longo_prazo, status)
+            VALUES (?, ?, ?, ?, ?, ?)
         """;
 
         try (Connection conn = databaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, new String[]{"id"})) {
 
-            stmt.setInt(1, proposta.getEmpresaId());
-            stmt.setInt(2, proposta.getEmpregadoId());
-            stmt.setString(3, proposta.getDescricao());
-            stmt.setBigDecimal(4, proposta.getValor());
-            stmt.setBoolean(5, proposta.isLongoPrazo());
+            setStmtValores(proposta, stmt);
             stmt.executeUpdate();
 
             ResultSet rs = stmt.getGeneratedKeys();
@@ -50,19 +46,15 @@ public class JdbcPropostaRepository implements PropostaRepository {
     public Proposta editarProposta(Proposta proposta, int idProposta) {
         String sql = """
             UPDATE proposta
-               SET empresa_id = ?, empregado_id = ?, descricao = ?, valor = ?, is_longo_prazo = ?
+               SET empresa_id = ?, empregado_id = ?, descricao = ?, valor = ?, is_longo_prazo = ?, status = ?
              WHERE id = ?
         """;
 
         try (Connection conn = databaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, proposta.getEmpresaId());
-            stmt.setInt(2, proposta.getEmpregadoId());
-            stmt.setString(3, proposta.getDescricao());
-            stmt.setBigDecimal(4, proposta.getValor());
-            stmt.setBoolean(5, proposta.isLongoPrazo());
-            stmt.setInt(6, idProposta);
+            setStmtValores(proposta, stmt);
+            stmt.setInt(7, idProposta);
 
             stmt.executeUpdate();
             proposta.setId(idProposta);
@@ -190,7 +182,17 @@ public class JdbcPropostaRepository implements PropostaRepository {
         p.setValor(rs.getBigDecimal("valor"));
         p.setDataCriacao(rs.getTimestamp("data_criacao"));
         p.setLongoPrazo(rs.getBoolean("is_longo_prazo"));
+        p.setStatus(rs.getString("status"));
 
         return p;
+    }
+
+    private void setStmtValores(Proposta proposta, PreparedStatement stmt) throws SQLException {
+        stmt.setInt(1, proposta.getEmpresaId());
+        stmt.setInt(2, proposta.getEmpregadoId());
+        stmt.setString(3, proposta.getDescricao());
+        stmt.setBigDecimal(4, proposta.getValor());
+        stmt.setBoolean(5, proposta.isLongoPrazo());
+        stmt.setString(6, proposta.getStatus());
     }
 }
