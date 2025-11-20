@@ -2,13 +2,24 @@ package com.economy.interfaces;
 
 import com.economy.domain.model.Deposito;
 import com.economy.domain.service.DepositoService;
+import com.economy.domain.service.PixService;
+import com.economy.dto.input.PixDepositInputDto;
+import com.economy.dto.output.PixQrCodeOutputDto;
 
 import java.util.List;
 
 public class DepositoControllerImpl implements DepositoController{
     private final DepositoService depositoService;
-    public DepositoControllerImpl(DepositoService depositoService) {
+    private final PixService pixService;
+
+    public DepositoControllerImpl(DepositoService depositoService, PixService pixService) {
         this.depositoService = depositoService;
+        this.pixService = pixService;
+    }
+
+    @Override
+    public PixQrCodeOutputDto createPixQr(PixDepositInputDto deposito) {
+        return pixService.createQrCode(deposito);
     }
 
     @Override

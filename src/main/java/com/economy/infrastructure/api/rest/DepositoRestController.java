@@ -2,7 +2,9 @@ package com.economy.infrastructure.api.rest;
 
 import com.economy.domain.model.Deposito;
 import com.economy.dto.input.DepositoInputDto;
+import com.economy.dto.input.PixDepositInputDto;
 import com.economy.dto.output.DepositoOutputDto;
+import com.economy.dto.output.PixQrCodeOutputDto;
 import com.economy.interfaces.DepositoController;
 import com.economy.mapper.DepositoMapper;
 import jakarta.ws.rs.*;
@@ -25,9 +27,27 @@ public class DepositoRestController {
         this.depositoController = depositoController;
     }
 
+    //CONTROLLER criar QRCode
+        //chama mercadoPago api
+        // mercadoPago Api cria QR Code
+    @POST
+    @Path("/qrCodePix")
+    public Response createPixQr(PixDepositInputDto dto) {
+        try {
+            PixQrCodeOutputDto qrCodePagamento = depositoController.createPixQr(dto);
+            return Response.status(Response.Status.CREATED).entity(qrCodePagamento).build();
+        }catch (RuntimeException e){
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+        }
+    }
+
+    //O webhook idealmente batera aqui
     @POST
     public Response depositar(DepositoInputDto dto) {
         try {
+            //CONTROLLER webhook faz o deposito
+                //SERVICE registro de deposito é criado
+
             Deposito deposito = DepositoMapper.toModel(dto);
             Deposito criado = depositoController.fazerDeposito(deposito);
             DepositoOutputDto saida = DepositoMapper.toDto(criado);

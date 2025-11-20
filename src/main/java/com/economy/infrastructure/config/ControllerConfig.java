@@ -7,8 +7,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 public class ControllerConfig {
 
     @ApplicationScoped
-    public DepositoController depositoController(DepositoService depositoController) {
-        return new DepositoControllerImpl(depositoController);
+    public DepositoController depositoController(DepositoService depositoController, PixService pixService) {
+        return new DepositoControllerImpl(depositoController, pixService);
     }
 
     @ApplicationScoped
