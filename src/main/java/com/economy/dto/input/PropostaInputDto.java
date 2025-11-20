@@ -8,12 +8,14 @@ public class PropostaInputDto {
     private String descricao;
     private BigDecimal valor;
     private Date dataCriacao;
+    private boolean isLongoPrazo;
 
-    public PropostaInputDto(int empresaId, String descricao, BigDecimal valor, Date dataCriacao) {
+    public PropostaInputDto(int empresaId, String descricao, BigDecimal valor, Date dataCriacao, boolean isLongoPrazo) {
         this.empresaId = empresaId;
         this.descricao = descricao;
         this.valor = valor;
         this.dataCriacao = dataCriacao;
+        this.isLongoPrazo = isLongoPrazo;
     }
 
     public int getEmpresaId() {
@@ -46,5 +48,13 @@ public class PropostaInputDto {
 
     public void setDataCriacao(Date dataCriacao) {
         this.dataCriacao = dataCriacao;
+    }
+
+    public boolean isLongoPrazo() {
+        return isLongoPrazo;
+    }
+
+    public void setLongoPrazo(boolean longoPrazo) {
+        isLongoPrazo = longoPrazo;
     }
 }

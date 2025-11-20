@@ -20,7 +20,7 @@ public class JdbcPropostaRepository implements PropostaRepository {
     @Override
     public Proposta criarProposta(Proposta proposta) {
         String sql = """
-            INSERT INTO proposta (empresa_id, empregado_id, descricao, valor)
+            INSERT INTO proposta (empresa_id, empregado_id, descricao, valor, is_longo_prazo)
             VALUES (?, ?, ?, ?)
         """;
 
@@ -31,7 +31,7 @@ public class JdbcPropostaRepository implements PropostaRepository {
             stmt.setInt(2, proposta.getEmpregadoId());
             stmt.setString(3, proposta.getDescricao());
             stmt.setBigDecimal(4, proposta.getValor());
-
+            stmt.setBoolean(5, proposta.isLongoPrazo());
             stmt.executeUpdate();
 
             ResultSet rs = stmt.getGeneratedKeys();
@@ -50,7 +50,7 @@ public class JdbcPropostaRepository implements PropostaRepository {
     public Proposta editarProposta(Proposta proposta, int idProposta) {
         String sql = """
             UPDATE proposta
-               SET empresa_id = ?, empregado_id = ?, descricao = ?, valor = ?
+               SET empresa_id = ?, empregado_id = ?, descricao = ?, valor = ?, is_longo_prazo = ?
              WHERE id = ?
         """;
 
@@ -61,7 +61,8 @@ public class JdbcPropostaRepository implements PropostaRepository {
             stmt.setInt(2, proposta.getEmpregadoId());
             stmt.setString(3, proposta.getDescricao());
             stmt.setBigDecimal(4, proposta.getValor());
-            stmt.setInt(5, idProposta);
+            stmt.setBoolean(5, proposta.isLongoPrazo());
+            stmt.setInt(6, idProposta);
 
             stmt.executeUpdate();
             proposta.setId(idProposta);
@@ -188,6 +189,7 @@ public class JdbcPropostaRepository implements PropostaRepository {
         p.setDescricao(rs.getString("descricao"));
         p.setValor(rs.getBigDecimal("valor"));
         p.setDataCriacao(rs.getTimestamp("data_criacao"));
+        p.setLongoPrazo(rs.getBoolean("is_longo_prazo"));
 
         return p;
     }

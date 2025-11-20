@@ -10,14 +10,16 @@ public class Proposta {
     private BigDecimal valor;
     private Date dataCriacao;
     private int empregadoId;
+    private boolean isLongoPrazo;
 
-    public Proposta(int id, int empresaId, String descricao, BigDecimal valor, Date dataCriacao, int empregadoId) {
+    public Proposta(int id, int empresaId, String descricao, BigDecimal valor, Date dataCriacao, int empregadoId, boolean isLongoPrazo) {
         this.id = id;
         this.empresaId = empresaId;
         this.descricao = descricao;
         this.valor = valor;
         this.dataCriacao = dataCriacao;
         this.empregadoId = empregadoId;
+        this.isLongoPrazo = isLongoPrazo;
     }
 
     public Proposta() {
@@ -70,5 +72,13 @@ public class Proposta {
 
     public void setEmpregadoId(int empregadoId) {
         this.empregadoId = empregadoId;
+    }
+
+    public boolean isLongoPrazo() {
+        return isLongoPrazo;
+    }
+
+    public void setLongoPrazo(boolean longoPrazo) {
+        isLongoPrazo = longoPrazo;
     }
 }
