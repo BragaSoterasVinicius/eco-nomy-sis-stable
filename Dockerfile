@@ -5,8 +5,8 @@ WORKDIR /app
 # Copy Maven files
 COPY pom.xml .
 
-# Copy sourc   e code
-COPY src src
+# Copy source code
+COPY /src src
 
 # Build the application using the pre-installed Maven
 RUN mvn clean package -DskipTests
