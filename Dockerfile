@@ -5,8 +5,11 @@ WORKDIR /app
 # Copy Maven files
 COPY pom.xml .
 
+
+RUN echo "=== DEBUG LIST ===" && ls -la && echo "=== END DEBUG ==="
 # Copy source code
-COPY /src src
+COPY src /src
+RUN echo "=== DEBUG LIST ===" && ls -la && echo "=== END DEBUG ==="
 
 # Build the application using the pre-installed Maven
 RUN mvn clean package -DskipTests
