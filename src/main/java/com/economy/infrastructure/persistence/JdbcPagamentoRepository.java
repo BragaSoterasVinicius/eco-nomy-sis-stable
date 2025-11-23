@@ -17,7 +17,7 @@ public class JdbcPagamentoRepository implements PagamentoRepository {
     @Override
     public Pagamento criarPagamento(Pagamento pagamento) {
         String sql = """
-            INSERT INTO pagamento (proposta_id, empresa_id, empregado_id, valor, data_pagamento)
+            INSERT INTO t_en_pagamento (proposta_id, empresa_id, empregado_id, valor, data_pagamento)
             VALUES (?, ?, ?, ?, ?)
         """;
 
@@ -41,7 +41,7 @@ public class JdbcPagamentoRepository implements PagamentoRepository {
             return pagamento;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Error creating pagamento", e);
+            throw new RuntimeException("Error creating t_en_pagamento", e);
         }
     }
 
@@ -51,7 +51,7 @@ public class JdbcPagamentoRepository implements PagamentoRepository {
     @Override
     public Pagamento editarPagamento(Pagamento pagamento, int idPagamento) {
         String sql = """
-            UPDATE pagamento
+            UPDATE t_en_pagamento
             SET proposta_id = ?, empresa_id = ?, empregado_id = ?, valor = ?, data_pagamento = ?
             WHERE id = ?
         """;
@@ -81,7 +81,7 @@ public class JdbcPagamentoRepository implements PagamentoRepository {
     // -----------------------------------------------------------
     @Override
     public Pagamento getById(int pagamentoId) {
-        String sql = "SELECT * FROM pagamento WHERE id = ?";
+        String sql = "SELECT * FROM t_en_pagamento WHERE id = ?";
 
         try (Connection conn = databaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -97,7 +97,7 @@ public class JdbcPagamentoRepository implements PagamentoRepository {
             return null;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Error retrieving pagamento " + pagamentoId, e);
+            throw new RuntimeException("Error retrieving t_en_pagamento " + pagamentoId, e);
         }
     }
 
@@ -106,7 +106,7 @@ public class JdbcPagamentoRepository implements PagamentoRepository {
     // -----------------------------------------------------------
     @Override
     public List<Pagamento> listarPagamentosPorEmpregadoId(int empregadoId) {
-        String sql = "SELECT * FROM pagamento WHERE empregado_id = ? ORDER BY data_pagamento DESC";
+        String sql = "SELECT * FROM t_en_pagamento WHERE empregado_id = ? ORDER BY data_pagamento DESC";
         List<Pagamento> pagamentos = new ArrayList<>();
 
         try (Connection conn = databaseConnection.getConnection();
@@ -121,7 +121,7 @@ public class JdbcPagamentoRepository implements PagamentoRepository {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Error listing pagamentos for empregado " + empregadoId, e);
+            throw new RuntimeException("Error listing t_en_pagamentos for empregado " + empregadoId, e);
         }
 
         return pagamentos;
@@ -132,7 +132,7 @@ public class JdbcPagamentoRepository implements PagamentoRepository {
     // -----------------------------------------------------------
     @Override
     public List<Pagamento> listarPagamentosPorEmpresaId(int empresaId) {
-        String sql = "SELECT * FROM pagamento WHERE empresa_id = ? ORDER BY data_pagamento DESC";
+        String sql = "SELECT * FROM t_en_pagamento WHERE empresa_id = ? ORDER BY data_pagamento DESC";
         List<Pagamento> pagamentos = new ArrayList<>();
 
         try (Connection conn = databaseConnection.getConnection();
@@ -147,7 +147,7 @@ public class JdbcPagamentoRepository implements PagamentoRepository {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Error listing pagamentos for empresa " + empresaId, e);
+            throw new RuntimeException("Error listing t_en_pagamentos for empresa " + empresaId, e);
         }
 
         return pagamentos;
