@@ -18,7 +18,7 @@ public class JdbcEmpregadoRepository implements EmpregadoRepository {
     @Override
     public Empregado criarEmpregado(Empregado empregado) {
         String sql = """
-            INSERT INTO empregado (cpf, nome, email, saldo, senha, data_criacao)
+            INSERT INTO t_en_empregado (cpf, nome, email, saldo, senha, data_criacao)
             VALUES (?, ?, ?, ?, ?, ?)
         """;
 
@@ -43,7 +43,7 @@ public class JdbcEmpregadoRepository implements EmpregadoRepository {
             return empregado;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Error inserting empregado", e);
+            throw new RuntimeException("Error inserting t_en_empregado", e);
         }
     }
 
@@ -53,7 +53,7 @@ public class JdbcEmpregadoRepository implements EmpregadoRepository {
     @Override
     public Empregado editarEmpregado(Empregado empregado, int idEmpregado) {
         String sql = """
-            UPDATE empregado
+            UPDATE t_en_empregado
             SET cpf = ?, nome = ?, email = ?, saldo = ?, senha = ?, data_criacao = ?
             WHERE id = ?
         """;
@@ -75,7 +75,7 @@ public class JdbcEmpregadoRepository implements EmpregadoRepository {
             return empregado;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Error updating empregado " + idEmpregado, e);
+            throw new RuntimeException("Error updating t_en_empregado " + idEmpregado, e);
         }
     }
 
@@ -84,7 +84,7 @@ public class JdbcEmpregadoRepository implements EmpregadoRepository {
     // -----------------------------------------------------------
     @Override
     public void deletarEmpregado(int idEmpregado) {
-        String sql = "DELETE FROM empregado WHERE id = ?";
+        String sql = "DELETE FROM t_en_empregado WHERE id = ?";
 
         try (Connection conn = databaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -93,7 +93,7 @@ public class JdbcEmpregadoRepository implements EmpregadoRepository {
             stmt.executeUpdate();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Error deleting empregado " + idEmpregado, e);
+            throw new RuntimeException("Error deleting t_en_empregado " + idEmpregado, e);
         }
     }
 
@@ -102,7 +102,7 @@ public class JdbcEmpregadoRepository implements EmpregadoRepository {
     // -----------------------------------------------------------
     @Override
     public List<Empregado> listarEmpregados() {
-        String sql = "SELECT * FROM empregado ORDER BY id DESC";
+        String sql = "SELECT * FROM t_en_empregado ORDER BY id DESC";
         List<Empregado> empregados = new ArrayList<>();
 
         try (Connection conn = databaseConnection.getConnection();
@@ -114,7 +114,7 @@ public class JdbcEmpregadoRepository implements EmpregadoRepository {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Error listing empregados", e);
+            throw new RuntimeException("Error listing t_en_empregados", e);
         }
 
         return empregados;
@@ -125,7 +125,7 @@ public class JdbcEmpregadoRepository implements EmpregadoRepository {
     // -----------------------------------------------------------
     @Override
     public List<Empregado> listarByIdUsuario(int idUsuario) {
-        String sql = "SELECT * FROM empregado WHERE id = ?";
+        String sql = "SELECT * FROM t_en_empregado WHERE id = ?";
 
         List<Empregado> lista = new ArrayList<>();
 
@@ -141,7 +141,7 @@ public class JdbcEmpregadoRepository implements EmpregadoRepository {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Error listing empregado " + idUsuario, e);
+            throw new RuntimeException("Error listing t_en_empregado " + idUsuario, e);
         }
 
         return lista;
@@ -153,7 +153,7 @@ public class JdbcEmpregadoRepository implements EmpregadoRepository {
     @Override
     public Empregado loginEmpregado(String email, String senha) {
         String sql = """
-            SELECT * FROM empregado
+            SELECT * FROM t_en_empregado
             WHERE email = ? AND senha = ?
         """;
 
@@ -172,7 +172,7 @@ public class JdbcEmpregadoRepository implements EmpregadoRepository {
             return null; // login failed
 
         } catch (SQLException e) {
-            throw new RuntimeException("Error logging empregado", e);
+            throw new RuntimeException("Error logging t_en_empregado", e);
         }
     }
 
