@@ -20,8 +20,8 @@ public class JdbcPropostaRepository implements PropostaRepository {
     @Override
     public Proposta criarProposta(Proposta proposta) {
         String sql = """
-            INSERT INTO t_en_proposta (empresa_id, empregado_id, descricao, valor, is_longo_prazo, status)
-            VALUES (?, ?, ?, ?, ?, ?)
+            INSERT INTO t_en_proposta (empresa_id, descricao, valor, is_longo_prazo, status)
+            VALUES (?, ?, ?, ?, ?)
         """;
 
         try (Connection conn = databaseConnection.getConnection();
@@ -188,11 +188,18 @@ public class JdbcPropostaRepository implements PropostaRepository {
     }
 
     private void setStmtValores(Proposta proposta, PreparedStatement stmt) throws SQLException {
+        int valor = 2;
         stmt.setInt(1, proposta.getEmpresaId());
-        stmt.setInt(2, proposta.getEmpregadoId());
-        stmt.setString(3, proposta.getDescricao());
-        stmt.setBigDecimal(4, proposta.getValor());
-        stmt.setBoolean(5, proposta.isLongoPrazo());
-        stmt.setString(6, proposta.getStatus());
+        if(proposta.getEmpregadoId() != 0){
+            stmt.setInt(valor, proposta.getEmpregadoId());
+            valor++;
+        }
+        stmt.setString(valor, proposta.getDescricao());
+        valor++;
+        stmt.setBigDecimal(valor, proposta.getValor());
+        valor++;
+        stmt.setBoolean(valor, proposta.isLongoPrazo());
+        valor++;
+        stmt.setString(valor, proposta.getStatus());
     }
 }
