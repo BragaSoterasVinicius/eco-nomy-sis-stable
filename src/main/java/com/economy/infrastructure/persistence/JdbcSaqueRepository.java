@@ -20,7 +20,7 @@ public class JdbcSaqueRepository implements SaqueRepository {
     @Override
     public Saque criarSaque(Saque saque) {
         String sql = """
-            INSERT INTO saque (empregado_id, valor, metodo)
+            INSERT INTO t_en_saque (empregado_id, valor, metodo)
             VALUES (?, ?, ?)
         """;
 
@@ -48,7 +48,7 @@ public class JdbcSaqueRepository implements SaqueRepository {
     @Override
     public List<Saque> listarByEmpregadoId(int empregadoId) {
         String sql = """
-            SELECT * FROM saque
+            SELECT * FROM t_en_saque
              WHERE empregado_id = ?
              ORDER BY data_saque DESC
         """;
