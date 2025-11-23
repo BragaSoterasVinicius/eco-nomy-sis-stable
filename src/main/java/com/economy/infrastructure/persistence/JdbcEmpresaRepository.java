@@ -18,7 +18,7 @@ public class JdbcEmpresaRepository implements EmpresaRepository {
     @Override
     public Empresa criarEmpresa(Empresa empresa) {
         String sql = """
-            INSERT INTO empresa (nome, cnpj, saldo, senha, data_criacao)
+            INSERT INTO t_en_empresa (nome, cnpj, saldo, senha, data_criacao)
             VALUES (?, ?, ?, ?, ?)
         """;
 
@@ -52,7 +52,7 @@ public class JdbcEmpresaRepository implements EmpresaRepository {
     @Override
     public Empresa editarEmpresa(Empresa empresa, int idEmpresa) {
         String sql = """
-            UPDATE empresa
+            UPDATE t_en_empresa
             SET nome = ?, cnpj = ?, saldo = ?, senha = ?, data_criacao = ?
             WHERE id = ?
         """;
@@ -73,7 +73,7 @@ public class JdbcEmpresaRepository implements EmpresaRepository {
             return empresa;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Error updating empresa " + idEmpresa, e);
+            throw new RuntimeException("Error updating t_en_empresa " + idEmpresa, e);
         }
     }
 
@@ -82,7 +82,7 @@ public class JdbcEmpresaRepository implements EmpresaRepository {
     // -----------------------------------------------------------
     @Override
     public void deletarEmpresa(int idEmpresa) {
-        String sql = "DELETE FROM empresa WHERE id = ?";
+        String sql = "DELETE FROM t_en_empresa WHERE id = ?";
 
         try (Connection conn = databaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -91,7 +91,7 @@ public class JdbcEmpresaRepository implements EmpresaRepository {
             stmt.executeUpdate();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Error deleting empresa " + idEmpresa, e);
+            throw new RuntimeException("Error deleting t_en_empresa " + idEmpresa, e);
         }
     }
 
@@ -100,7 +100,7 @@ public class JdbcEmpresaRepository implements EmpresaRepository {
     // -----------------------------------------------------------
     @Override
     public List<Empresa> listarEmpresas() {
-        String sql = "SELECT * FROM empresa ORDER BY id DESC";
+        String sql = "SELECT * FROM t_en_empresa ORDER BY id DESC";
         List<Empresa> empresas = new ArrayList<>();
 
         try (Connection conn = databaseConnection.getConnection();
@@ -112,7 +112,7 @@ public class JdbcEmpresaRepository implements EmpresaRepository {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Error listing empresas", e);
+            throw new RuntimeException("Error listing t_en_empresas", e);
         }
 
         return empresas;
@@ -123,7 +123,7 @@ public class JdbcEmpresaRepository implements EmpresaRepository {
     // -----------------------------------------------------------
     @Override
     public List<Empresa> listarById(int id) {
-        String sql = "SELECT * FROM empresa WHERE id = ?";
+        String sql = "SELECT * FROM t_en_empresa WHERE id = ?";
         List<Empresa> empresas = new ArrayList<>();
 
         try (Connection conn = databaseConnection.getConnection();
@@ -138,7 +138,7 @@ public class JdbcEmpresaRepository implements EmpresaRepository {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Error listing empresa " + id, e);
+            throw new RuntimeException("Error listing t_en_empresa " + id, e);
         }
 
         return empresas;
@@ -150,7 +150,7 @@ public class JdbcEmpresaRepository implements EmpresaRepository {
     @Override
     public Empresa login(String cnpj, String senha) {
         String sql = """
-            SELECT * FROM empresa
+            SELECT * FROM t_en_empresa
             WHERE cnpj = ? AND senha = ?
         """;
 
@@ -169,7 +169,7 @@ public class JdbcEmpresaRepository implements EmpresaRepository {
             return null;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Error logging empresa", e);
+            throw new RuntimeException("Error logging t_en_empresa", e);
         }
     }
 
