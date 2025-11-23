@@ -20,7 +20,7 @@ public class JdbcPropostaRepository implements PropostaRepository {
     @Override
     public Proposta criarProposta(Proposta proposta) {
         String sql = """
-            INSERT INTO proposta (empresa_id, empregado_id, descricao, valor, is_longo_prazo, status)
+            INSERT INTO t_en_proposta (empresa_id, empregado_id, descricao, valor, is_longo_prazo, status)
             VALUES (?, ?, ?, ?, ?, ?)
         """;
 
@@ -45,7 +45,7 @@ public class JdbcPropostaRepository implements PropostaRepository {
     @Override
     public Proposta editarProposta(Proposta proposta, int idProposta) {
         String sql = """
-            UPDATE proposta
+            UPDATE t_en_proposta
                SET empresa_id = ?, empregado_id = ?, descricao = ?, valor = ?, is_longo_prazo = ?, status = ?
              WHERE id = ?
         """;
@@ -68,7 +68,7 @@ public class JdbcPropostaRepository implements PropostaRepository {
 
     @Override
     public void deletarProposta(int idProposta) {
-        String sql = "DELETE FROM proposta WHERE id = ?";
+        String sql = "DELETE FROM t_en_proposta WHERE id = ?";
 
         try (Connection conn = databaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -83,7 +83,7 @@ public class JdbcPropostaRepository implements PropostaRepository {
 
     @Override
     public List<Proposta> listarPropostas() {
-        String sql = "SELECT * FROM proposta ORDER BY data_criacao DESC";
+        String sql = "SELECT * FROM t_en_proposta ORDER BY data_criacao DESC";
 
         try (Connection conn = databaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
@@ -104,7 +104,7 @@ public class JdbcPropostaRepository implements PropostaRepository {
 
     @Override
     public List<Proposta> listarByEmpresaId(int empresaId) {
-        String sql = "SELECT * FROM proposta WHERE empresa_id = ? ORDER BY data_criacao DESC";
+        String sql = "SELECT * FROM t_en_proposta WHERE empresa_id = ? ORDER BY data_criacao DESC";
 
         try (Connection conn = databaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -127,7 +127,7 @@ public class JdbcPropostaRepository implements PropostaRepository {
 
     @Override
     public List<Proposta> listarByEmpregadoId(int empregadoId) {
-        String sql = "SELECT * FROM proposta WHERE empregado_id = ? ORDER BY data_criacao DESC";
+        String sql = "SELECT * FROM t_en_proposta WHERE empregado_id = ? ORDER BY data_criacao DESC";
 
         try (Connection conn = databaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -144,13 +144,13 @@ public class JdbcPropostaRepository implements PropostaRepository {
             return lista;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao listar propostas por empregado", e);
+            throw new RuntimeException("Erro ao listar t_en_propostas por empregado", e);
         }
     }
 
     @Override
     public Proposta getProposta(int idProposta) {
-        String sql = "SELECT * FROM proposta WHERE id = ?";
+        String sql = "SELECT * FROM t_en_proposta WHERE id = ?";
 
         try (Connection conn = databaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
